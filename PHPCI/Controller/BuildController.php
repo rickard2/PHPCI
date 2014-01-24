@@ -24,7 +24,7 @@ class BuildController extends \PHPCI\Controller
      * @var \PHPCI\Store\BuildStore
      */
     protected $buildStore;
-    
+
     public function init()
     {
         $this->buildStore      = b8\Store\Factory::getStore('Build');
@@ -149,6 +149,8 @@ class BuildController extends \PHPCI\Controller
         $log = str_replace('[0;32m', '<span style="color: green">', $log);
         $log = str_replace('[0;31m', '<span style="color: red">', $log);
         $log = str_replace('[0m', '</span>', $log);
+        $log = preg_replace('/^\[[0-9-: ]+\] RunCommand.Info: /im', '', $log);
+        $log = preg_replace('/\{"buildID":"\d+"\} \[\]/im', '', $log);
 
         return $log;
     }
